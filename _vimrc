@@ -36,7 +36,21 @@ colorscheme evening
 set wrap
 set linebreak
 set nu
+set autoindent
 
 if has('gui_running')
   set guifont=Consolas:h11:cANSI
 endif
+
+set hidden
+set ignorecase
+set incsearch
+set smartcase
+set showmatch
+set ruler
+set vb
+set viminfo+=n$VIM/_viminfo
+set noerrorbells
+set showcmd
+set history=1000
+set undolevels=1000
