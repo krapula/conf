@@ -1,35 +1,12 @@
-set nocompatible
-source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
+" Additions
+set viminfo+=n$HOME/_viminfo
+set encoding=utf-8
+set fileencoding=utf-8
 
-set diffexpr=MyDiff()
-function MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  let eq = ''
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
-      let cmd = '""' . $VIMRUNTIME . '\diff"'
-      let eq = '"'
-    else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-    endif
-  else
-    let cmd = $VIMRUNTIME . '\diff'
-  endif
-  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-endfunction
-
-" Additions 
-au BufRead,BufNewFile *.md set filetype=markdown
+" Change backup directory
+set backup
+set backupdir=$HOME\\backup
+set directory=$HOME\\tmp
 
 " Style
 colorscheme evening
@@ -38,8 +15,11 @@ set linebreak
 set nu
 set autoindent
 
+" Automatic syntax highlighting
+au BufRead,BufNewFile *.md set filetype=markdown
+
 if has('gui_running')
-  set guifont=Consolas:h11:cANSI
+ set guifont=Consolas:h10
 endif
 
 set hidden
@@ -49,8 +29,20 @@ set smartcase
 set showmatch
 set ruler
 set vb
-set viminfo+=n$VIM/_viminfo
 set noerrorbells
 set showcmd
 set history=1000
 set undolevels=1000
+
+" Tabs
+map <C-Tab> gt
+map <C-S-Tab> gT
+map <C-1> 1gt
+map <C-2> 2gt
+map <C-3> 3gt
+map <C-4> 4gt
+map <C-5> 5gt
+map <C-6> 6gt
+map <C-7> 7gt
+map <C-8> 8gt
+map <C-9> 9gt
