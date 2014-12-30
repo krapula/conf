@@ -1,11 +1,3 @@
-" Menu settings
-" =============
-language messages en set langmenu=en_US.UTF-8 " Menus in UTF-8 English
-set langmenu=en_US
-let $LANG = 'en_US'
-source $VIMRUNTIME/delmenu.vim	
-source $VIMRUNTIME/menu.vim	        " End of menu settings
-
 " Style
 " =====
 colorscheme evening
@@ -33,9 +25,40 @@ set showcmd
 set history=1000
 set undolevels=1000
 
+" System specific settings
+" ========================
+if has("win32") || has("win64")
+	let $HOME=$USERPROFILE				" Adjust for logon script that sets $HOME to network drive
+	let $WEB=$HOME."\\Dropbox\\writing\\webpage"
+	let $VIMFILES=$HOME."\\vimfiles"
+	set backupdir=$VIMFILES\\backup
+	set directory=$VIMFILES\\tmp
+	set viminfo+=n$VIMFILES/_viminfo
+	cd $HOME\Documents 
+	if has("gui_running")
+		language messages en set langmenu=en_US.UTF-8 " Menus in UTF-8 English
+		set langmenu=en_US
+		let $LANG = 'en_US'
+		source $VIMRUNTIME/delmenu.vim	
+		source $VIMRUNTIME/menu.vim	        " End of menu settings
+		source $VIMRUNTIME/mswin.vim	" Windows familiar shortcuts
+		behave mswin
+		autocmd VimEnter * source $VIMFILES\session.vim		" Load default session on start
+		autocmd VimLeave * mksession! $VIMFILES\session.vim	" Autosave session on close
+		set guifont=Consolas:h10
+		set go-=r						" Removes left/right scrollbars and toolbar buttons, does not work to have single line for all three
+		set go-=L
+		set go-=T
+	endif
+elseif has("unix")
+	let $VIMFILES=$HOME."/.vim"
+	set backupdir=$VIMFILES/backup
+	set directory=$VIMFILES/tmp
+	set viminfo+=n$VIMFILES/.viminfo
+endif
+
+
 au BufRead,BufNewFile *.md set filetype=markdown
-autocmd VimEnter * source $VIMFILES\session.vim		" Load default session on start
-autocmd VimLeave * mksession! $VIMFILES\session.vim	" Autosave session on close
 
 " Tabs key presses
 " ================
@@ -53,27 +76,7 @@ nnoremap <C-n> :enew<CR>
 map <C-Tab> :bn<CR>
 map <C-S-Tab> :bp<CR>
 map <C-e> :b#<CR>
-set viminfo+=n$VIMFILES/_viminfo
 
 " Abbreviations
 " =============
 ab ,. [ ]
-
-" System specific settings
-" ========================
-if has("win32") || has("win64")
-	let $HOME=$USERPROFILE				" Adjust for logon script that sets $HOME to network drive
-	let $VIMFILES=$HOME."\\vimfiles"
-	let $WEB=$HOME."\\Dropbox\\writing\\webpage"
-	set backupdir=$VIMFILES\\backup
-	set directory=$VIMFILES\\tmp
-	cd $HOME\Documents 
-	if has("gui_running")
-		source $VIMRUNTIME/mswin.vim	" Windows familiar shortcuts
-		behave mswin
-		set guifont=Consolas:h10
-		set go-=r						" Removes left/right scrollbars and toolbar buttons, does not work to have single line for all three
-		set go-=L
-		set go-=T
-	endif
-endif
