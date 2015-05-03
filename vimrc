@@ -59,6 +59,7 @@ endif
 
 
 au BufRead,BufNewFile *.md set filetype=markdown
+autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class 
 
 " Tabs key presses
 " ================
